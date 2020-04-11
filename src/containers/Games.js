@@ -22,6 +22,12 @@ class Games extends React.Component {
     });
   }
 
+  componentWillUnmount() {
+    const { pollAction } = this.props;
+
+    pollAction.cancel({ identifier: 'gamestatus' });
+  }
+
   /**
    * Render method
    *

@@ -7,6 +7,7 @@ import cl from 'classnames';
 import './item.css';
 
 import Status from './Status';
+import Actions from './Actions';
 
 class ServerListItem extends React.Component {
   constructor(props) {
@@ -46,7 +47,10 @@ class ServerListItem extends React.Component {
             <h5>{get(game, 'name', 'Uhh da het äuä öper vergässä e Titu z erfassä...')}</h5>
           </div>
           <div style={{ alignSelf: 'baseline' }}>
-            <Status status={get(status, 'status')} />
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Status status={status} />
+              <Actions status={status} />
+            </div>
           </div>
         </div>
 

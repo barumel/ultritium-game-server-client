@@ -6,20 +6,13 @@ import moment from 'moment';
 
 import './status.css';
 
-const icons = {
-  running: 'color-green mdi mdi-server',
-  stopped: 'color-black mdi mdi-server-off',
-  error: 'color-red mdi mdi-alert-circle',
-  starting: 'color-orange mdi mdi-cached'
-};
-
 const Error = React.memo(({ status }) => {
   const message = get(status, 'Error');
 
   return (
     <span
       className={cl(
-        'server-list-item-status-icon',
+        'game-list-item-status-icon',
         'color-red',
         'mdi',
         'mdi-alert-circle'
@@ -35,7 +28,7 @@ const Running = React.memo(({ status }) => {
   return (
     <span
       className={cl(
-        'server-list-item-status-icon',
+        'game-list-item-status-icon',
         'color-green',
         'mdi',
         'mdi-server'
@@ -51,7 +44,7 @@ const Stopped = React.memo(({ status }) => {
   return (
     <span
       className={cl(
-        'server-list-item-status-icon',
+        'game-list-item-status-icon',
         'color-black',
         'mdi',
         'mdi-server-off'
@@ -67,7 +60,7 @@ const Starting = React.memo(({ status }) => {
   return (
     <span
       className={cl(
-        'server-list-item-status-icon',
+        'game-list-item-status-icon',
         'color-orange',
         'mdi',
         'mdi-cached'
@@ -77,12 +70,19 @@ const Starting = React.memo(({ status }) => {
   );
 });
 
-function getIcon(status) {
-  if (get(status, 'Error.length', 0) > 0) return Error;
-  if (get(status, 'Running')) return Running;
-  if (!get(status, 'Running')) return Stopped;
+const icons = {
+  stopped: Stopped,
+  running: Running,
+  error: Error,
+  starting: Starting
+};
 
-  return Stopped;
+function getIcon(status) {
+  return get(
+    icons,
+    get(status, 'status'),
+    get(icons, 'stopped')
+  );
 }
 
 const Status = React.memo(({ status }) => {
