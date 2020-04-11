@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { get } from 'lodash';
 import cl from 'classnames';
 import moment from 'moment';
+import PacmanLoader from 'react-spinners/PacmanLoader';
 
 import './status.css';
 
@@ -10,15 +11,15 @@ const Error = React.memo(({ status }) => {
   const message = get(status, 'Error');
 
   return (
-    <span
+    <div
       className={cl(
-        'game-list-item-status-icon',
         'color-red',
-        'mdi',
-        'mdi-alert-circle'
+        'game-list-item-status-icon',
       )}
       title={message}
-    />
+    >
+      <span className="mdi mdi-alert-circle" />
+    </div>
   );
 });
 
@@ -26,15 +27,15 @@ const Running = React.memo(({ status }) => {
   const started = get(status, 'StartedAt');
 
   return (
-    <span
+    <div
       className={cl(
-        'game-list-item-status-icon',
         'color-green',
-        'mdi',
-        'mdi-server'
+        'game-list-item-status-icon',
       )}
       title={moment(started).format('DD.MM.YYYY HH:MM:SS')}
-    />
+    >
+      <span className="mdi mdi-server" />
+    </div>
   );
 });
 
@@ -42,31 +43,31 @@ const Stopped = React.memo(({ status }) => {
   const stopped = get(status, 'FinishedAt');
 
   return (
-    <span
+    <div
       className={cl(
-        'game-list-item-status-icon',
         'color-black',
-        'mdi',
-        'mdi-server-off'
+        'game-list-item-status-icon',
       )}
       title={moment(stopped).format('DD.MM.YYYY HH:MM:SS')}
-    />
+    >
+      <span className="mdi mdi-server-off" />
+    </div>
   );
 });
 
-const Starting = React.memo(({ status }) => {
+const Pending = React.memo(({ status }) => {
   const started = get(status, 'StartedAt');
 
   return (
-    <span
+    <div
       className={cl(
-        'game-list-item-status-icon',
-        'color-orange',
-        'mdi',
-        'mdi-cached'
+        'game-list-item-status-pacman',
+        'color-orange'
       )}
       title={moment(started).format('L')}
-    />
+    >
+      <PacmanLoader size={12} color="orange" />
+    </div>
   );
 });
 
@@ -74,7 +75,8 @@ const icons = {
   stopped: Stopped,
   running: Running,
   error: Error,
-  starting: Starting
+  starting: Pending,
+  stopping: Pending
 };
 
 function getIcon(status) {
@@ -89,9 +91,7 @@ const Status = React.memo(({ status }) => {
   const Icon = getIcon(status);
 
   return (
-    <div className="game-list-item-status-icon">
-      <Icon status={status} />
-    </div>
+    <Icon status={status} />
   );
 });
 

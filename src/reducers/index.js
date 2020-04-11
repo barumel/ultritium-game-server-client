@@ -4,6 +4,6 @@ import gamesReducer from './Game/Games';
 import pollReducer from './Poll';
 
 export default combineReducers({
-  games: gamesReducer,
+  games: gamesReducer.getReducer(),
   poll: pollReducer
 });

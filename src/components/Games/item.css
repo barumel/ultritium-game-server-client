@@ -1,0 +1,30 @@
+.game-list-item {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.game-list-item-left {
+  min-width: 80%;
+}
+
+.game-list-item-right {
+  display: flex;
+  align-items: center;
+  max-width: 5%;
+  height: 100%;
+  width: 100%;
+}
+
+.game-list-item-right-status {
+  height: 100%;
+  width: 100%;
+  padding-right: 20px;
+}
+
+.game-list-item-right-actions {
+  height: 100%;
+  width: 100%;
+}

@@ -5,7 +5,8 @@ import { get } from 'lodash';
 import action from '../../actions/Game/Start';
 
 export default function* startGame(request) {
-  const { id } = request;
+  const { game } = request;
+  const { id } = game;
 
   yield put({ type: action.getConstant('pending') });
 
@@ -20,14 +21,16 @@ export default function* startGame(request) {
 
     yield put({
       type: action.getConstant('fulfilled'),
-      payload
+      payload,
+      game
     });
 
     return payload;
   } catch (error) {
     yield put({
       type: action.getConstant('rejected'),
-      error
+      error,
+      game
     });
 
     return error;

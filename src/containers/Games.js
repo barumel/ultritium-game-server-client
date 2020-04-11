@@ -10,6 +10,7 @@ import gameStartAction from '../actions/Game/Start';
 import gameStopAction from '../actions/Game/Stop';
 import * as pollAction from '../actions/Poll';
 import GameList from '../components/Games/List';
+import Loader from '../components/General/Loader';
 
 class Games extends React.Component {
   constructor(props) {
@@ -25,7 +26,7 @@ class Games extends React.Component {
 
     this.onStart = this.onStart.bind(this);
     this.onStop = this.onStop.bind(this);
-    this.onRestart= this.onRestart.bind(this);
+    this.onRestart = this.onRestart.bind(this);
   }
 
   componentWillUnmount() {
@@ -36,16 +37,14 @@ class Games extends React.Component {
 
   onStart(game) {
     const { gameStartAction } = this.props;
-    const { id } = game;
 
-    gameStartAction.request({ id });
+    gameStartAction.request({ game });
   }
 
   onStop(game) {
     const { gameStopAction } = this.props;
-    const { id } = game;
 
-    gameStopAction.request({ id });
+    gameStopAction.request({ game });
   }
 
   onRestart(game) {
@@ -60,7 +59,15 @@ class Games extends React.Component {
    * @return {ReactElement} markup
    */
   render() {
-    const { games, status } = this.props;
+    const { games, status, requesting } = this.props;
+
+    if (requesting) {
+      return (
+        <Container fluid style={{ height: '100vh' }}>
+          <Loader />
+        </Container>
+      );
+    }
 
     return (
       <Container fluid>
@@ -93,17 +100,22 @@ Games.propTypes = {
   games: PropTypes.object,
   pollAction: PropTypes.object.isRequired,
   gameStartAction: PropTypes.object.isRequired,
-  gameStopAction: PropTypes.object.isRequired
+  gameStopAction: PropTypes.object.isRequired,
+  requesting: PropTypes.bool,
+  status: PropTypes.object
 };
 
 Games.defaultProps = {
-  games: {}
+  games: {},
+  requesting: false,
+  status: {}
 };
 
 function mapStateToProps(state, ownProps) {
   return {
     games: state.games,
-    status: get(state, 'poll.requests.gamestatus', {})
+    status: get(state, 'poll.requests.gamestatus', {}),
+    requesting: get(state, 'games.requesting', false)
   };
 }
 

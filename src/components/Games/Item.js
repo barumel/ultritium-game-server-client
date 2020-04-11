@@ -42,13 +42,17 @@ class GameListItem extends React.Component {
 
     return (
       <ListGroupItem onClick={this.toggle} style={{ width: '100%' }}>
-        <div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
-          <div style={{ minWidth: '95%' }}>
+        <div className="game-list-item">
+          <div className="game-list-item-left">
             <h5>{get(game, 'name', 'Uhh da het äuä öper vergässä e Titu z erfassä...')}</h5>
           </div>
-          <div style={{ alignSelf: 'baseline' }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+
+          <div className="game-list-item-right">
+            <div className="game-list-item-right-status">
               <Status status={status} />
+            </div>
+
+            <div>
               <Actions
                 game={game}
                 status={status}

@@ -1,5 +1,5 @@
 import update from 'immutability-helper';
-import { get, defaultsDeep, cloneDeep } from 'lodash';
+import { has, set, get, defaultsDeep, cloneDeep } from 'lodash';
 
 export default function Reducer({ action, defaultState = {} }) {
   const defaults = {
@@ -77,10 +77,31 @@ export default function Reducer({ action, defaultState = {} }) {
     [action.getConstant('rejected')]: onRejected
   };
 
-  return function reducer(state = ds, action) {
-    const { type } = action;
-    const method = get(methods, type, get(methods, 'default'));
+  function addMethod(key, func) {
+    if (has(methods, key)) {
+      throw new Error(`Action with key ${key} already registered!`);
+    }
 
-    return method(state, action);
+    set(methods, key, func);
+  }
+
+  function replaceMethod(key, func) {
+    set(methods, key, func);
+  }
+
+  function getReducer() {
+    return function reducer(state = ds, action) {
+      const { type } = action;
+      const method = get(methods, type, get(methods, 'default'));
+
+      return method(state, action);
+    };
+  }
+
+  return {
+    addMethod,
+    replaceMethod,
+    getDefaultState,
+    getReducer
   };
 }
