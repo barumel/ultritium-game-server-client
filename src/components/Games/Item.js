@@ -1,21 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { get } from 'lodash';
+import { get, noop } from 'lodash';
 import { Collapse, ListGroupItem } from 'reactstrap';
-import cl from 'classnames';
 
 import './item.css';
 
 import Status from './Status';
 import Actions from './Actions';
 
-class ServerListItem extends React.Component {
+class GameListItem extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      collapsed: true,
-      config: get(props, 'game.config', {})
+      collapsed: true
     };
 
     this.toggle = this.toggle.bind(this);
@@ -23,9 +21,8 @@ class ServerListItem extends React.Component {
 
   toggle() {
     const { collapsed } = this.state;
-    const config = get(this, 'props.game.config', {})
 
-    this.setState({ collapsed: !collapsed, config });
+    this.setState({ collapsed: !collapsed });
   }
 
   /**
@@ -37,7 +34,10 @@ class ServerListItem extends React.Component {
     const { collapsed } = this.state;
     const {
       game,
-      status
+      status,
+      onStart,
+      onStop,
+      onRestart
     } = this.props;
 
     return (
@@ -49,7 +49,13 @@ class ServerListItem extends React.Component {
           <div style={{ alignSelf: 'baseline' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <Status status={status} />
-              <Actions status={status} />
+              <Actions
+                game={game}
+                status={status}
+                onStart={onStart}
+                onStop={onStop}
+                onRestart={onRestart}
+              />
             </div>
           </div>
         </div>
@@ -64,13 +70,19 @@ class ServerListItem extends React.Component {
   }
 }
 
-ServerListItem.propTypes = {
+GameListItem.propTypes = {
   game: PropTypes.object.isRequired,
-  status: PropTypes.object
+  status: PropTypes.object,
+  onStart: PropTypes.func,
+  onStop: PropTypes.func,
+  onRestart: PropTypes.func
 };
 
-ServerListItem.defaultProps = {
-  status: {}
+GameListItem.defaultProps = {
+  status: {},
+  onStop: noop,
+  onStart: noop,
+  onRestart: noop
 };
 
-export default ServerListItem;
+export default GameListItem;

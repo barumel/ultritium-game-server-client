@@ -91,7 +91,7 @@ class Actions extends React.Component {
     const { isOpen } = this.state;
     ev.preventDefault();
     ev.stopPropagation();
-    console.log('TOGLG');
+
     this.setState({ isOpen: !isOpen });
   }
 
@@ -122,14 +122,14 @@ class Actions extends React.Component {
             <DropdownItem header>
               <FormattedMessage id="Game.Actions.Title" />
             </DropdownItem>
-            <DropdownItem disabled={!canStart}>
-              <Start onClick={() => onStart(game)} disabled={!canStart} />
+            <DropdownItem disabled={!canStart} onClick={() => onStart(game)}>
+              <Start />
             </DropdownItem>
-            <DropdownItem disabled={!canStop}>
-              <Stop onClick={() => onStop(game)} disabled={!canStop} />
+            <DropdownItem disabled={!canStop} onClick={() => onStop(game)}>
+              <Stop />
             </DropdownItem>
-            <DropdownItem disable={!canRestart}>
-              <Restart onClick={() => onRestart(game)} disable={!canRestart} />
+            <DropdownItem disabled={!canRestart} onClick={() => onRestart(game)}>
+              <Restart />
             </DropdownItem>
           </DropdownMenu>
         </Dropdown>

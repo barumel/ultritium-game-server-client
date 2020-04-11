@@ -1,16 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ListGroup, ListGroupItem } from 'reactstrap';
-import { get } from 'lodash';
+import { ListGroup } from 'reactstrap';
+import { get, noop } from 'lodash';
 
-import ServerListItem from './Item';
+import GameListItem from './Item';
 
-const ServerList = React.memo(({ games, status }) => {
-  const children = games.map((g, index) => (
-    <ServerListItem
+const GameList = React.memo(({
+  games,
+  status,
+  onStart,
+  onStop,
+  onRestart
+}) => {
+  const children = games.map((g) => (
+    <GameListItem
       key={g.id}
       game={g}
       status={status.find((s) => get(s, 'identifier') === get(g, 'identifier'))}
+      onStart={onStart}
+      onStop={onStop}
+      onRestart={onRestart}
     />
   ));
 
@@ -21,14 +30,20 @@ const ServerList = React.memo(({ games, status }) => {
   );
 });
 
-ServerList.propTypes = {
+GameList.propTypes = {
   games: PropTypes.array,
   status: PropTypes.array,
+  onStart: PropTypes.func,
+  onStop: PropTypes.func,
+  onRestart: PropTypes.func
 };
 
-ServerList.defaultProps = {
+GameList.defaultProps = {
   games: [],
-  status: []
+  status: [],
+  onStop: noop,
+  onStart: noop,
+  onRestart: noop
 };
 
-export default ServerList;
+export default GameList;

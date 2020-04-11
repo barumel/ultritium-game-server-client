@@ -6,6 +6,8 @@ import { get } from 'lodash';
 import { Container, Row, Col } from 'reactstrap';
 
 import gamesAction from '../actions/Game/Games';
+import gameStartAction from '../actions/Game/Start';
+import gameStopAction from '../actions/Game/Stop';
 import * as pollAction from '../actions/Poll';
 import GameList from '../components/Games/List';
 
@@ -20,12 +22,36 @@ class Games extends React.Component {
       identifier: 'gamestatus',
       url: '/game/status'
     });
+
+    this.onStart = this.onStart.bind(this);
+    this.onStop = this.onStop.bind(this);
+    this.onRestart= this.onRestart.bind(this);
   }
 
   componentWillUnmount() {
     const { pollAction } = this.props;
 
     pollAction.cancel({ identifier: 'gamestatus' });
+  }
+
+  onStart(game) {
+    const { gameStartAction } = this.props;
+    const { id } = game;
+
+    gameStartAction.request({ id });
+  }
+
+  onStop(game) {
+    const { gameStopAction } = this.props;
+    const { id } = game;
+
+    gameStopAction.request({ id });
+  }
+
+  onRestart(game) {
+    const { id } = game;
+
+    console.log('RESTART', id);
   }
 
   /**
@@ -47,6 +73,9 @@ class Games extends React.Component {
             <GameList
               games={get(games, 'data', [])}
               status={get(status, 'data', [])}
+              onStart={this.onStart}
+              onStop={this.onStop}
+              onRestart={this.onRestart}
             />
           </Col>
 
@@ -62,7 +91,9 @@ class Games extends React.Component {
 Games.propTypes = {
   gamesAction: PropTypes.object.isRequired,
   games: PropTypes.object,
-  pollAction: PropTypes.object.isRequired
+  pollAction: PropTypes.object.isRequired,
+  gameStartAction: PropTypes.object.isRequired,
+  gameStopAction: PropTypes.object.isRequired
 };
 
 Games.defaultProps = {
@@ -79,7 +110,9 @@ function mapStateToProps(state, ownProps) {
 function mapDispatchToProps(dispatch) {
   return {
     gamesAction: bindActionCreators(gamesAction, dispatch),
-    pollAction: bindActionCreators(pollAction, dispatch)
+    pollAction: bindActionCreators(pollAction, dispatch),
+    gameStartAction: bindActionCreators(gameStartAction, dispatch),
+    gameStopAction: bindActionCreators(gameStopAction, dispatch)
   };
 }
 
