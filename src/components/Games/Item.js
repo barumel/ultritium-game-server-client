@@ -6,16 +6,7 @@ import cl from 'classnames';
 
 import './item.css';
 
-const icons = {
-  running: 'color-green mdi mdi-server',
-  stopped: 'color-black mdi mdi-server-off',
-  error: 'color-red mdi mdi-alert-circle',
-  starting: 'color-orange mdi mdi-cached'
-}
-
-function getIconClass(type) {
-  return get(icons, type, '');
-}
+import Status from './Status';
 
 class ServerListItem extends React.Component {
   constructor(props) {
@@ -30,8 +21,10 @@ class ServerListItem extends React.Component {
   }
 
   toggle() {
+    const { collapsed } = this.state;
     const config = get(this, 'props.game.config', {})
-    this.setState({ collapsed: !this.state.collapsed, config });
+
+    this.setState({ collapsed: !collapsed, config });
   }
 
   /**
@@ -40,22 +33,24 @@ class ServerListItem extends React.Component {
    * @return {ReactElement} markup
    */
   render() {
+    const { collapsed } = this.state;
     const {
-      game
+      game,
+      status
     } = this.props;
 
-    return(
+    return (
       <ListGroupItem onClick={this.toggle} style={{ width: '100%' }}>
         <div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
           <div style={{ minWidth: '95%' }}>
             <h5>{get(game, 'name', 'Uhh da het äuä öper vergässä e Titu z erfassä...')}</h5>
           </div>
           <div style={{ alignSelf: 'baseline' }}>
-            <span className={cl('server-list-item-status-icon', getIconClass(get(game, 'status')))} />
+            <Status status={get(status, 'status')} />
           </div>
         </div>
 
-        <Collapse isOpen={!this.state.collapsed}>
+        <Collapse isOpen={!collapsed}>
           <div>
             {get(game, 'description', 'Hie chönt e Beschribig sta, weme enini erfasst hät...')}
           </div>
@@ -66,11 +61,12 @@ class ServerListItem extends React.Component {
 }
 
 ServerListItem.propTypes = {
-  game: PropTypes.object.isRequired
+  game: PropTypes.object.isRequired,
+  status: PropTypes.object
 };
 
 ServerListItem.defaultProps = {
-
+  status: {}
 };
 
 export default ServerListItem;

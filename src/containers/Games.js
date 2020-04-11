@@ -6,33 +6,20 @@ import { get } from 'lodash';
 import { Container, Row, Col } from 'reactstrap';
 
 import gamesAction from '../actions/Game/Games';
+import * as pollAction from '../actions/Poll';
 import GameList from '../components/Games/List';
-
-const servers = [{
-  id: 'conan-exiles',
-  title: 'Conan Exiles',
-  status: 'running'
-}, {
-  id: 'the-forest',
-  title: 'The Forest',
-  status: 'stopped'
-}, {
-  id: 'astroneer',
-  title: 'Astroneer',
-  status: 'error'
-}, {
-  id: 'fooby',
-  title: 'Fooby',
-  status: 'starting'
-}];
 
 class Games extends React.Component {
   constructor(props) {
     super(props);
 
-    const { gamesAction } = props;
+    const { gamesAction, pollAction } = props;
 
     gamesAction.request();
+    pollAction.request({
+      identifier: 'gamestatus',
+      url: '/game/status'
+    });
   }
 
   /**
@@ -41,7 +28,7 @@ class Games extends React.Component {
    * @return {ReactElement} markup
    */
   render() {
-    const { games } = this.props;
+    const { games, status } = this.props;
 
     return (
       <Container fluid>
@@ -53,6 +40,7 @@ class Games extends React.Component {
           <Col lg={10} md={10} sm={0}>
             <GameList
               games={get(games, 'data', [])}
+              status={get(status, 'data', [])}
             />
           </Col>
 
@@ -67,7 +55,8 @@ class Games extends React.Component {
 
 Games.propTypes = {
   gamesAction: PropTypes.object.isRequired,
-  games: PropTypes.object
+  games: PropTypes.object,
+  pollAction: PropTypes.object.isRequired
 };
 
 Games.defaultProps = {
@@ -76,13 +65,15 @@ Games.defaultProps = {
 
 function mapStateToProps(state, ownProps) {
   return {
-    games: state.games
+    games: state.games,
+    status: get(state, 'poll.requests.gamestatus', {})
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    gamesAction: bindActionCreators(gamesAction, dispatch)
+    gamesAction: bindActionCreators(gamesAction, dispatch),
+    pollAction: bindActionCreators(pollAction, dispatch)
   };
 }
 

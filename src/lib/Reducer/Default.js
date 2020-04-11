@@ -23,8 +23,6 @@ export default function Reducer({ action, defaultState = {} }) {
       []
     );
 
-    console.log('SCHTEIT', state);
-
     return update(state, {
       requesting: { $set: true },
       fulfilled: { $set: false },
