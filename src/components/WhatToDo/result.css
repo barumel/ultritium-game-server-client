@@ -1,0 +1,7 @@
+.what-to-to-result-item {
+  cursor: pointer;
+}
+
+.what-to-to-result-item-selected {
+  background-color: #f5f5f5;
+}

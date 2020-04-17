@@ -1,0 +1,15 @@
+.game-list-item-status-icon {
+  font-size: 1.4em;
+  height: 100%;
+  width: 100%;
+}
+
+.game-list-item-status-pacman {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  margin-top: -13px;
+  padding-right: 10px;
+}
