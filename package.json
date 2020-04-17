@@ -1,6 +1,6 @@
 {
   "name": "@ultritium/game-server-client",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Ultritium game server client",
   "dependencies": {
     "@mdi/font": "^4.7.95",
