@@ -1,7 +1,7 @@
 {
   "name": "@ultritium/game-server-client",
   "version": "0.0.1",
-  "private": true,
+  "description": "Ultritium game server client",
   "dependencies": {
     "@mdi/font": "^4.7.95",
     "@ultritium/validate": "^0.4.1",
@@ -58,5 +58,9 @@
       "last 1 chrome version",
       "last 1 safari version"
     ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/barumel/ultritium-game-server-client.git"
   }
 }

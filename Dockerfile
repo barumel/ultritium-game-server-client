@@ -2,7 +2,7 @@ FROM node:12.16.2-alpine
 
 RUN mkdir -p /tmp/build
 
-RUN mkdir -p /src/client
+RUN mkdir -p /srv/client
 
 WORKDIR /tmp/build
 
@@ -16,8 +16,8 @@ RUN set -ex; \
   npm install; \
   npm run build
 
-RUN cp -r /tmp/build/build/* /src/client
+RUN cp -r /tmp/build/build/* /srv/client
 
 RUN rm -rf /tmp/build
 
-WORKDIR /src/client
+WORKDIR /srv/client
