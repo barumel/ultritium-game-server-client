@@ -21,7 +21,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
 
-    axios.defaults.baseURL = get(process, 'env.API_URL', 'http://localhost:8080');
+    axios.defaults.baseURL = get(process, 'env.API_URL', 'http://localhost:8080/api');
     axios.defaults.headers.common = {};
     axios.defaults.headers.common['Accept-Language'] = 'de,en,fr';
     axios.defaults.timeout = 20000;
