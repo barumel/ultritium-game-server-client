@@ -47,6 +47,8 @@ export function PollWorker({
         yield delay(interval);
       } catch (error) {
         yield put({ type: POLL_REJECTED, identifier, error });
+
+        yield cancel();
       }
     }
   }

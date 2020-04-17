@@ -15,6 +15,7 @@ import './App.css';
 import Dashboard from './containers/Dashboard';
 import Main from './containers/Main';
 import Games from './containers/Games';
+import Layout from './containers/Layout';
 
 class App extends React.Component {
   constructor(props) {
@@ -34,11 +35,13 @@ class App extends React.Component {
     return (
       <IntlProvider locale={language} messages={flattenMessages(messages[language])}>
         <Router>
-          <Switch>
-            <Route path="/dashboard" component={Dashboard} />
-            <Route path="/games" component={Games} />
-            <Route path="/" component={Main} />
-          </Switch>
+          <Layout>
+            <Switch>
+              <Route path="/dashboard" component={Dashboard} />
+              <Route path="/games" component={Games} />
+              <Route path="/" component={Main} />
+            </Switch>
+          </Layout>
         </Router>
       </IntlProvider>
     );
