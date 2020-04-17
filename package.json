@@ -1,5 +1,5 @@
 {
-  "name": "@ultritium/server-admin-api",
+  "name": "@ultritium/game-server-client",
   "version": "0.0.1",
   "private": true,
   "dependencies": {
