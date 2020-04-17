@@ -76,7 +76,8 @@ const icons = {
   running: Running,
   error: Error,
   starting: Pending,
-  stopping: Pending
+  stopping: Pending,
+  restarting: Pending
 };
 
 function getIcon(status) {

@@ -3,6 +3,7 @@ import { get } from 'lodash';
 
 import * as action from '../actions/Poll';
 import gameStartAction from '../actions/Game/Start';
+import gameRestartAction from '../actions/Game/Restart';
 import gameStopAction from '../actions/Game/Stop';
 
 const {
@@ -109,6 +110,32 @@ methods[gameStartAction.getConstant('fulfilled')] = (state, action) => {
             data: {
               [index]: {
                 status: { $set: 'starting' }
+              }
+            }
+          }
+        }
+      });
+    }
+  });
+
+  return updated;
+};
+
+methods[gameRestartAction.getConstant('fulfilled')] = (state, action) => {
+  const { requests } = state;
+  const identifier = get(action, 'game.identifier');
+  let updated = state;
+
+  // if we're polling the game status at the moment, set the status of the given game to "starting"
+  const status = get(requests, 'gamestatus.data', []);
+  status.forEach((s, index) => {
+    if (get(s, 'identifier') === identifier) {
+      updated = update(state, {
+        requests: {
+          gamestatus: {
+            data: {
+              [index]: {
+                status: { $set: 'restarting' }
               }
             }
           }

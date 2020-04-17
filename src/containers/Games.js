@@ -7,6 +7,7 @@ import { Container, Row, Col } from 'reactstrap';
 
 import gamesAction from '../actions/Game/Games';
 import gameStartAction from '../actions/Game/Start';
+import gameRestartAction from '../actions/Game/Restart';
 import gameStopAction from '../actions/Game/Stop';
 import * as pollAction from '../actions/Poll';
 import GameList from '../components/Games/List';
@@ -48,9 +49,9 @@ class Games extends React.Component {
   }
 
   onRestart(game) {
-    const { id } = game;
+    const { gameRestartAction } = this.props;
 
-    console.log('RESTART', id);
+    gameRestartAction.request({ game });
   }
 
   /**
@@ -101,6 +102,7 @@ Games.propTypes = {
   pollAction: PropTypes.object.isRequired,
   gameStartAction: PropTypes.object.isRequired,
   gameStopAction: PropTypes.object.isRequired,
+  gameRestartAction: PropTypes.object.isRequired,
   requesting: PropTypes.bool,
   status: PropTypes.object
 };
@@ -124,7 +126,8 @@ function mapDispatchToProps(dispatch) {
     gamesAction: bindActionCreators(gamesAction, dispatch),
     pollAction: bindActionCreators(pollAction, dispatch),
     gameStartAction: bindActionCreators(gameStartAction, dispatch),
-    gameStopAction: bindActionCreators(gameStopAction, dispatch)
+    gameStopAction: bindActionCreators(gameStopAction, dispatch),
+    gameRestartAction: bindActionCreators(gameRestartAction, dispatch)
   };
 }
 
